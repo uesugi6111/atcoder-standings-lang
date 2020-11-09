@@ -2,7 +2,7 @@
 
 async function aaa() {
 
-
+    console.log('@kenkooooさんありがとう');
     const res = await fetch("https://kenkoooo.com/atcoder/resources/lang.json", { cache: 'force-cache' });
     const list = await res.json();
     $('.username').each((i, u) => {
