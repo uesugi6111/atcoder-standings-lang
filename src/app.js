@@ -72,7 +72,6 @@ function sequence_search(user_id, list, index) {
 function search_one(user_id, list, index, add) {
     const array = new Array();
     while (1) {
-        console.log(index);
         if (list[index]['user_id'] !== user_id) {
             break;
         }
