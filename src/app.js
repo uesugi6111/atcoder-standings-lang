@@ -12,17 +12,23 @@ async function aaa() {
         }
         const user_id = u.text;
 
-        const lang = fcfc(list, user_id);
-        u.insertAdjacentHTML('beforeend', '/' + lang);
+        const { lang, array } = fcfc(list, user_id);
+
+
+        const str_array = array.map((element) => {
+            return element['language'] + ' : ' + element['count'];
+        });
+
+        u.insertAdjacentHTML('beforeend', '/' + '<span data-toggle="tooltip" data-html="true" data-placement="right" style="font-size: 12px;" title="' + str_array.join('<br>') + '">' + lang + '</span>');
+        $('[data-toggle="tooltip"]').tooltip();
     });
 }
-
 
 function fcfc(list, user_id) {
     const trim_user_id = user_id.trim();
     const index = binary_search(list, trim_user_id);
-    const lang = sequence_search(trim_user_id, list, index);
-    return lang;
+    return sequence_search(trim_user_id, list, index);
+
 
 }
 
@@ -57,7 +63,7 @@ function sequence_search(user_id, list, index) {
 
     let array = new Array();
     array = array.concat(search_one(user_id, list, index, 1));
-    array = array.concat(search_one(user_id, list, index, -1));
+    array = array.concat(search_one(user_id, list, index - 1, -1));
 
     let max = 0;
     let lang = "";
@@ -68,7 +74,9 @@ function sequence_search(user_id, list, index) {
         max = element['count'];
         lang = element['language'];
     });
-    return lang;
+    array.sort((a, b) => b['count'] - a['count']);
+
+    return { lang, array };
 }
 function search_one(user_id, list, index, add) {
     const array = new Array();
