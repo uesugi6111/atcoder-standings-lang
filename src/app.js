@@ -2,9 +2,9 @@
 
 async function aaa() {
 
+
     const res = await fetch("https://kenkoooo.com/atcoder/resources/lang.json", { cache: 'force-cache' });
     const list = await res.json();
-    console.log(list);
     $('.username').each((i, u) => {
         if (!u.href.includes('/users/')) {
             return;
@@ -18,13 +18,9 @@ async function aaa() {
 
 
 function fcfc(list, user_id) {
-    console.log(list);
-    console.log(user_id);
     const trim_user_id = user_id.trim();
     const index = binary_search(list, trim_user_id);
-    console.log(index);
     const lang = sequence_search(trim_user_id, list, index);
-    console.log(lang);
     return lang;
 
 }
