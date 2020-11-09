@@ -12,12 +12,27 @@ async function aaa() {
         }
         const user_id = u.text;
 
-        const { lang, array } = fcfc(list, user_id);
+        const angArray = fcfc(list, user_id);
+        if (angArray.length === 0) {
+            return;
+        }
 
 
-        const str_array = array.map((element) => {
+        const str_array = angArray.map((element) => {
             return element['language'] + ' : ' + element['count'];
         });
+
+        let lang = angArray[0]['language'];
+
+        const langSize = angArray.length;
+
+        let lang_str = '';
+        if (langSize >= 3) {
+            lang_str += '/' + angArray[2]['language'];
+        }
+        if (langSize >= 2) {
+            lang += '<span style="font-size: 10px;">' + '/' + angArray[1]['language'] + lang_str + ' </span>';
+        }
 
         u.insertAdjacentHTML('beforeend', '/' + '<span data-toggle="tooltip" data-html="true" data-placement="right" style="font-size: 12px;" title="' + str_array.join('<br>') + '">' + lang + '</span>');
         $('[data-toggle="tooltip"]').tooltip();
@@ -65,18 +80,9 @@ function sequence_search(user_id, list, index) {
     array = array.concat(search_one(user_id, list, index, 1));
     array = array.concat(search_one(user_id, list, index - 1, -1));
 
-    let max = 0;
-    let lang = "";
-    array.forEach(element => {
-        if (max > element['count']) {
-            return;
-        }
-        max = element['count'];
-        lang = element['language'];
-    });
     array.sort((a, b) => b['count'] - a['count']);
 
-    return { lang, array };
+    return array;
 }
 function search_one(user_id, list, index, add) {
     const array = new Array();
