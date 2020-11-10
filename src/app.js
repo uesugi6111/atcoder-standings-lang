@@ -1,8 +1,16 @@
+// ==UserScript==
+// @name         atcoder-lang
+// @namespace    
+// @version      0.1
+// @description  try to take over the world!
+// @author       uesugi
+// @match       https://atcoder.jp/*
+// @grant        none
+// ==/UserScript==
 
 
 async function aaa() {
 
-    console.log('@kenkooooさんありがとう');
     const res = await fetch("https://kenkoooo.com/atcoder/resources/lang.json", { cache: 'force-cache' });
     const list = await res.json();
 
@@ -97,4 +105,47 @@ function search_one(user_id, list, index, add) {
     return array;
 }
 
-aaa();
+function bbb() {
+    const target = document.querySelector('#standings-tbody');
+
+
+    const observer = new MutationObserver(records => {
+        aaa();
+    });
+
+
+    observer.observe(target, {
+        subtree: true,
+        childList: true
+    });
+    aaa();
+}
+
+
+
+const MAX_RETRY_COUNT_FIND_DIFF_CONTAINER = 30;
+var retry_counter = 0;
+
+
+function getDiffContainerElements() {
+    retry_counter++;
+
+    if (retry_counter > MAX_RETRY_COUNT_FIND_DIFF_CONTAINER) {
+        clearInterval(set_interval_id);
+        delete set_interval_id;
+    }
+    var diff_container_elements = document.getElementById('standings-tbody');
+    if (diff_container_elements != null) {
+        if (typeof (set_interval_id) != 'undefined') {
+            clearInterval(set_interval_id);
+            delete set_interval_id;
+
+            bbb();
+        } else {
+            return diff_container_elements;
+        }
+    }
+}
+var set_interval_id = setInterval(getDiffContainerElements, 1000);
+
+
